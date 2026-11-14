@@ -155,7 +155,8 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
 .opening .flap { animation: flap-open .32s .34s ease both; }
 .opening .letter { animation: letter-rise .46s .49s cubic-bezier(.21,.81,.36,1) both; }
 .opening .seal { animation: seal-out .16s .26s ease both; }
-.revealed .paper { animation: paper-in .4s ease-out both; }
+.revealed .paper {
+  --paper-unit: min(.0625rem, .13928cqi); animation: paper-in .4s ease-out both; }
 .interactive .invitation { min-height: 100vh; min-height: 100svh; }
 
 @keyframes cover-out {
@@ -189,6 +190,7 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   color: var(--navy);
 }
 .paper {
+  --paper-unit: min(.0625rem, .13928cqi);
   max-width: 52rem;
   container-type: inline-size;
   -webkit-text-size-adjust: 100%;
@@ -207,7 +209,7 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
 .paper-ornaments {
   position: absolute;
   z-index: -1;
-  inset: .75rem;
+  inset: calc(12 * var(--paper-unit));
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
@@ -216,7 +218,7 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   pointer-events: none;
 }
 .paper-ornaments span {
-  width: min(5.25rem, 11.7cqi);
+  width: calc(84 * var(--paper-unit));
   aspect-ratio: 1;
   background: url("./image/hoavangoc1.png") center / contain no-repeat;
   filter: sepia(.28) saturate(.82) brightness(.82);
@@ -228,7 +230,7 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   content: "";
   position: absolute;
   z-index: -1;
-  inset: .6rem;
+  inset: calc(9.6 * var(--paper-unit));
   background: url("./image/hat.png") right 3% bottom 2% / min(48%, 20rem) auto no-repeat;
   mix-blend-mode: multiply;
   opacity: .07;
@@ -238,21 +240,21 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   position: relative;
   isolation: isolate;
   text-align: center;
-  padding-bottom: min(1.4rem, 3.12cqi);
+  padding-bottom: calc(22.4 * var(--paper-unit));
 }
 .paper-header::before {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: max(-1.5rem, -3.34cqi) 0 max(-2rem, -4.46cqi);
+  inset: calc(-24 * var(--paper-unit)) 0 calc(-32 * var(--paper-unit));
   background: url("./image/school_img.jpg") center 48% / cover no-repeat;
-  transform: translateY(min(calc(1.25rem + 20pt), 6.5cqi));
+  transform: translateY(calc(46.67 * var(--paper-unit)));
   filter: sepia(.6) saturate(.6);
   mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 25%, transparent 100%);
   opacity: .4;
   pointer-events: none;
 }
-.school-logo { display: block; width: min(23rem, 51.25cqi); height: auto; margin: 0 auto min(2rem, 4.46cqi); }
+.school-logo { display: block; width: calc(368 * var(--paper-unit)); height: auto; margin: 0 auto calc(32 * var(--paper-unit)); }
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -265,13 +267,13 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
 #invite-title:focus { outline: none; }
 .invitation-salutation {
   display: block;
-  margin: 0 auto min(.65rem, 1.45cqi);
+  margin: 0 auto calc(10.4 * var(--paper-unit));
   color: #5f4023;
-  font: italic 400 min(1.45rem, 3.23cqi)/1.4 Cambria, "Times New Roman", serif;
+  font: italic 400 calc(23.2 * var(--paper-unit))/1.4 Cambria, "Times New Roman", serif;
 }
 .invitation-line { white-space: nowrap; }
-.graduate-name { display: block; width: min(32rem, 71.3cqi); height: auto; margin: 0 auto; }
-.paper-body { font-size: min(1rem, 2.23cqi); line-height: 1.65; max-width: min(34rem, 75.77cqi); margin-inline: auto; text-align: center; }
+.graduate-name { display: block; width: calc(512 * var(--paper-unit)); height: auto; margin: 0 auto; }
+.paper-body { font-size: calc(16 * var(--paper-unit)); line-height: 1.65; max-width: calc(544 * var(--paper-unit)); margin-inline: auto; text-align: center; }
 .invitation-note { font-style: italic; white-space: nowrap; }
 dl { margin: 1.4em 0; border-block: 1px solid #b39a72; text-align: left; }
 .event-details > div { display: grid; grid-template-columns: 1.25em minmax(0, 1fr); gap: .8em; padding: .65em 0; }
@@ -294,24 +296,28 @@ dd { color: #51463a; font-weight: 400; }
   text-underline-offset: .2em;
 }
 .rsvp {
-  width: min(34rem, 100cqi);
-  margin-inline: calc((100% - min(34rem, 100cqi)) / 2);
+  --rsvp-width: min(100cqi, calc(544 * var(--paper-unit)));
+  --rsvp-gap: calc(8 * var(--paper-unit));
+  width: var(--rsvp-width);
+  margin-inline: calc((100% - var(--rsvp-width)) / 2);
   font-size: 1rem;
   color: #5f4023;
   text-align: left;
 }
 .rsvp-actions {
-  container-type: inline-size;
   display: grid;
   grid-template-columns: max-content;
+  column-gap: var(--rsvp-gap);
 }
 .rsvp .rsvp-actions > button {
   grid-area: 1 / 1;
   position: relative;
-  height: min(3.25rem, 9.56cqi);
+  height: calc(52 * var(--paper-unit));
   min-height: 0;
-  padding: 0 min(.65rem, 1.9cqi);
-  font-size: min(.875rem, 3.1cqi);
+  padding: 0 calc(10.4 * var(--paper-unit));
+  border-width: var(--paper-unit);
+  border-radius: calc(5.6 * var(--paper-unit));
+  font-size: calc(14 * var(--paper-unit));
   white-space: nowrap;
   line-height: 1.15;
   box-shadow: inset 0 1px 1px #fff9, inset 0 -2px 2px #79552a26, 0 2px 4px #79552a35;
@@ -334,7 +340,7 @@ dd { color: #51463a; font-weight: 400; }
 }
 .rsvp button:hover { background: #ead8b8; }
 .rsvp .rsvp-dodge {
-  left: clamp(calc(100% + 8px), var(--dodge-x, 100cqi), calc(100cqi - 100%));
+  left: clamp(calc(100% + var(--rsvp-gap)), var(--dodge-x, var(--rsvp-width)), calc(var(--rsvp-width) - 100%));
   background: #fcf5e7;
 }
 .rsvp-dialog {

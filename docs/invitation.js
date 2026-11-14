@@ -109,7 +109,8 @@ function dodgeRsvp() {
   const area = rsvpActions.getBoundingClientRect();
   const button = rsvpDodge.getBoundingClientRect();
   const join = rsvpJoin.getBoundingClientRect();
-  const minX = join.right - area.left + 8;
+  const gap = parseFloat(getComputedStyle(rsvpActions).columnGap);
+  const minX = join.right - area.left + gap;
   const maxX = area.width - button.width;
   const currentX = button.left - area.left;
   const minJump = button.width + 1;
