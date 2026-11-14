@@ -14,6 +14,7 @@ const guests = new Map([
 ]);
 const guestGroup = new URLSearchParams(location.search).get('guest');
 const recipient = guests.get(guestGroup) ?? guests.get('friend');
+document.title = `${recipient[0].toLocaleUpperCase('vi')}${recipient.slice(1)} có hẹn với Hùng!`;
 
 heading.querySelector('.invitation-line').textContent =
   `Thân mời ${recipient} đến chung vui trong ngày tốt nghiệp`;
