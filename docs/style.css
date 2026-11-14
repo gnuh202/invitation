@@ -200,14 +200,26 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
     #fcf5e7;
   box-shadow: 0 18px 55px #372a1822;
 }
-.paper::before {
-  content: "";
+.paper-ornaments {
   position: absolute;
   z-index: -1;
-  inset: .55rem;
-  border: 1px solid #b39a7266;
+  inset: .75rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-content: space-between;
+  border: 1px solid #aa8451;
   pointer-events: none;
 }
+.paper-ornaments span {
+  width: clamp(2.25rem, 10vw, 5.25rem);
+  aspect-ratio: 1;
+  background: url("./image/hoavangoc1.png") center / contain no-repeat;
+  filter: sepia(.28) saturate(.82) brightness(.82);
+}
+.paper-ornaments span:nth-child(2) { transform: scaleX(-1); }
+.paper-ornaments span:nth-child(3) { transform: scaleY(-1); }
+.paper-ornaments span:nth-child(4) { transform: scale(-1); }
 .paper::after {
   content: "";
   position: absolute;
