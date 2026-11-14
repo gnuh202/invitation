@@ -64,8 +64,8 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   width: min(76vw, 26rem);
   aspect-ratio: 1.64;
   perspective: 900px;
-  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform .24s ease-out;
+  transform: perspective(900px) translateY(var(--envelope-lift, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform .24s ease-out, box-shadow .24s ease-out;
   background: #253d56;
   border-radius: 5px;
   box-shadow: 0 24px 55px #050d1780, 0 0 0 1px #e5bd7e50;
@@ -112,6 +112,23 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
     linear-gradient(165deg, #46637c, #293f56 72%);
   clip-path: polygon(0 0, 100% 0, 50% 66%);
 }
+.flap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 24% 40% at var(--shine-x, 50%) 60%, #fff0b2, #edbe67 44%, transparent 100%);
+  clip-path: polygon(0 0, 50% 65%, 100% 0, 50% 66%);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .cover:not(.opening) .envelope-link:hover .envelope {
+    --envelope-lift: -5px;
+    box-shadow: 0 31px 65px #050d178c, 0 0 0 1px #e5bd7e60;
+  }
+  .cover:not(.opening) .envelope-link:hover .flap::after { opacity: .85; }
+}
 .seal {
   position: absolute;
   left: 50%;
@@ -130,7 +147,7 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   font: 700 clamp(.95rem, 3vw, 1.3rem)/.9 Georgia, serif;
   transition: opacity .22s, filter .22s;
 }
-.seal img { display: block; width: clamp(1.45rem, 7vw, 2.4rem); height: auto; }
+.seal img { display: block; width: clamp(1.35rem, 6.2vw, 2.05rem); height: auto; }
 .envelope-link:is(:hover, :active) .seal { filter: brightness(1.18); }
 
 .opening { animation: cover-out 1.12s linear both; }
@@ -315,6 +332,9 @@ dd { color: #51463a; font-weight: 400; }
 }
 .rsvp-dialog::backdrop { background: #101d2c80; }
 .rsvp-dialog h3 { margin: 0 2.75rem .85rem 0; font-size: 1.05rem; }
+.rsvp-dialog.is-confirmed { width: min(40rem, calc(100% - 2rem)); text-align: center; }
+.rsvp-dialog.is-confirmed h3 { margin: 0 0 1rem; white-space: nowrap; overflow-x: auto; }
+.rsvp-ok { min-width: 5rem; }
 .rsvp .rsvp-close { position: absolute; top: .4rem; right: .4rem; width: 44px; border: 0; background: transparent; font-size: 1.25rem; }
 .rsvp-form {
   display: grid;
