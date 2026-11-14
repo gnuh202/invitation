@@ -301,18 +301,17 @@ dd { color: #51463a; font-weight: 400; }
   text-align: left;
 }
 .rsvp-actions {
-  --rsvp-button-height: 3.25rem;
   container-type: inline-size;
   display: grid;
   grid-template-columns: max-content;
-  height: var(--rsvp-button-height);
 }
 .rsvp .rsvp-actions > button {
   grid-area: 1 / 1;
   position: relative;
-  height: var(--rsvp-button-height);
-  padding-inline: clamp(.25rem, 1.7cqi, .65rem);
-  font-size: clamp(.6875rem, 4.1cqi, .875rem);
+  height: min(3.25rem, 9.56cqi);
+  min-height: 0;
+  padding: 0 min(.65rem, 1.9cqi);
+  font-size: min(.875rem, 3.1cqi);
   white-space: nowrap;
   line-height: 1.15;
   box-shadow: inset 0 1px 1px #fff9, inset 0 -2px 2px #79552a26, 0 2px 4px #79552a35;
