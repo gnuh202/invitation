@@ -8,6 +8,9 @@ DTSTAMP:20261114T000000Z
 DTSTART;VALUE=DATE:20261127
 DTEND;VALUE=DATE:20261128
 SUMMARY:Lễ tốt nghiệp Nguyễn Duy Hùng
-DESCRIPTION:Giờ hẹn và địa điểm cụ thể sẽ được cập nhật.
+DESCRIPTION:9:30 – 14:30 hoặc sau 17:30.
+LOCATION:Sân bóng trường\nTrường ĐH Bách Khoa –
+  268 Lý Thường Kiệt\, Phường Diên Hồng\, TP. Hồ Chí Minh
+URL:https://maps.app.goo.gl/iewcWcUTB2WHoitK9
 END:VEVENT
 END:VCALENDAR

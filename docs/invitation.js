@@ -57,11 +57,13 @@ envelope.addEventListener('pointermove', (event) => {
   const y = (event.clientY - bounds.top) / bounds.height - 0.5;
   envelope.style.setProperty('--tilt-x', `${-y * 9}deg`);
   envelope.style.setProperty('--tilt-y', `${x * 12}deg`);
+  envelope.style.setProperty('--shine-x', `${Math.min(100, Math.max(0, (x + .5) * 100))}%`);
 });
 
 envelope.addEventListener('pointerleave', () => {
   envelope.style.removeProperty('--tilt-x');
   envelope.style.removeProperty('--tilt-y');
+  envelope.style.removeProperty('--shine-x');
 });
 
 window.addEventListener('hashchange', () => {
@@ -80,13 +82,27 @@ const rsvpName = rsvpForm.elements.name;
 const rsvpSubmit = rsvpForm.querySelector('button');
 const rsvpStatus = rsvpDialog.querySelector('.rsvp-dialog-status');
 const rsvpTitle = rsvpDialog.querySelector('#rsvp-title');
+const rsvpClose = rsvpDialog.querySelector('.rsvp-close');
+const rsvpOk = rsvpDialog.querySelector('.rsvp-ok');
+
+function fitRsvpThanks() {
+  if (!rsvpDialog.open || rsvpOk.hidden) return;
+  rsvpTitle.style.fontSize = '';
+  if (rsvpTitle.scrollWidth > rsvpTitle.clientWidth) {
+    const fontSize = parseFloat(getComputedStyle(rsvpTitle).fontSize);
+    rsvpTitle.style.fontSize = `${Math.max(12, fontSize * rsvpTitle.clientWidth / rsvpTitle.scrollWidth)}px`;
+  }
+}
 
 rsvp.hidden = false;
 
 rsvpJoin.addEventListener('click', () => {
   rsvpDialog.showModal();
+  fitRsvpThanks();
 });
-rsvpDialog.querySelector('.rsvp-close').addEventListener('click', () => rsvpDialog.close());
+rsvpClose.addEventListener('click', () => rsvpDialog.close());
+rsvpOk.addEventListener('click', () => rsvpDialog.close());
+window.addEventListener('resize', fitRsvpThanks);
 
 function dodgeRsvp() {
   const area = rsvpActions.getBoundingClientRect();
@@ -135,6 +151,7 @@ rsvpForm.addEventListener('submit', async (event) => {
   }
 
   const data = new FormData();
+  data.set('name', name);
   data.set('subject', `${name} đã xác nhận tham gia!`);
   rsvpSubmit.disabled = true;
   rsvpStatus.textContent = 'Đang gửi xác nhận…';
@@ -150,7 +167,11 @@ rsvpForm.addEventListener('submit', async (event) => {
     rsvpDodge.hidden = true;
     rsvpStatus.textContent = '';
     rsvpTitle.textContent = `Cảm ơn ${name} vì đã đồng ý tham gia ❤️`;
-    if (rsvpDialog.open) rsvpTitle.focus();
+    rsvpDialog.classList.add('is-confirmed');
+    rsvpClose.hidden = true;
+    rsvpOk.hidden = false;
+    fitRsvpThanks();
+    if (rsvpDialog.open) rsvpOk.focus();
   } catch {
     rsvpStatus.textContent = 'Chưa gửi được xác nhận. Bạn thử lại nhé.';
   } finally {
