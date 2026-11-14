@@ -8,6 +8,7 @@
   <meta property="og:title" content="Hẹn gặp ở Bách Khoa · Nguyễn Duy Hùng">
   <meta property="og:description" content="Thư mời dự lễ tốt nghiệp · Thứ Sáu, 27/11/2026">
   <title>Hẹn gặp ở Bách Khoa · Nguyễn Duy Hùng</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./style.css">
   <script src="./invitation.js" defer></script>
 </head>
@@ -19,7 +20,7 @@
         <h1 id="cover-title"><img src="./image/thu-moi.png" alt="Thư mời" width="1446" height="402"></h1>
         <a class="envelope-link" href="#thiep" aria-label="Mở thư mời" aria-controls="thiep">
           <span class="envelope" aria-hidden="true">
-            <span class="letter">Nguyễn Duy Hùng</span>
+            <span class="letter">INVITATION</span>
             <span class="pocket"></span>
             <span class="flap"></span>
             <span class="seal"><img src="./image/01_logobachkhoasang.png" alt=""></span>
@@ -58,6 +59,22 @@
               <dd><a class="contact-number" href="tel:+84913406630">0913 406 630</a></dd>
             </div>
           </dl>
+          <section class="rsvp" aria-label="Xác nhận tham gia" hidden>
+            <div class="rsvp-actions">
+              <button type="button" class="rsvp-join" aria-haspopup="dialog" aria-controls="rsvp-dialog">Tham gia</button>
+              <button type="button" class="rsvp-dodge">Không tham gia</button>
+            </div>
+            <dialog id="rsvp-dialog" class="rsvp-dialog" aria-labelledby="rsvp-title">
+              <h3 id="rsvp-title" tabindex="-1">Xác nhận tham gia</h3>
+              <button type="button" class="rsvp-close" aria-label="Đóng">×</button>
+              <form id="rsvp-form" class="rsvp-form" data-endpoint="https://formspree.io/f/xjywgjwg" method="post">
+                <label class="visually-hidden" for="rsvp-name">Họ và tên</label>
+                <input id="rsvp-name" name="name" placeholder="Họ và tên" autocomplete="name" maxlength="100" required autofocus>
+                <button type="submit">Tham gia</button>
+              </form>
+              <p class="rsvp-dialog-status rsvp-status" role="status"></p>
+            </dialog>
+          </section>
           <p class="signature">
             <span class="signature-greeting">Hẹn gặp ở Bách Khoa!</span>
             <img src="./image/sign.png" alt="Chữ ký của Hùng" width="259" height="175">
