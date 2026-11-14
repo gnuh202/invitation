@@ -43,7 +43,12 @@ h1, h2, .graduate, .letter, .signature em { font-family: Georgia, "Times New Rom
 h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05; }
 h1 em { color: var(--gold); white-space: nowrap; }
 
+.envelope-link { display: block; border-radius: 5px; cursor: pointer; touch-action: manipulation; }
+.open-hint { color: var(--gold); font-size: .85rem; text-align: center; }
+[hidden] { display: none !important; }
+
 .envelope {
+  display: block;
   position: relative;
   width: min(76vw, 26rem);
   aspect-ratio: 1.64;
@@ -98,13 +103,42 @@ h1 em { color: var(--gold); white-space: nowrap; }
   font: 700 clamp(.95rem, 3vw, 1.3rem)/.9 Georgia, serif;
   transition: opacity .22s, filter .22s;
 }
-.seal span { font-size: .68em; margin-top: .18em; }
-.cover:has(.open-button:active) .seal { filter: brightness(1.28); }
-.opening .flap, .opened .flap { transform: rotateX(180deg); z-index: -1; }
-.opening .letter, .opened .letter { transform: translateY(-42%); }
-.opening .seal, .opened .seal { opacity: 0; }
+.seal img { display: block; width: clamp(1.45rem, 7vw, 2.4rem); height: auto; }
+.envelope-link:is(:hover, :active) .seal { filter: brightness(1.18); }
 
-.open-button, .calendar {
+.opening { animation: cover-out 1.12s linear both; }
+.opening .envelope { animation: envelope-shake .34s ease both; }
+.opening .flap { animation: flap-open .32s .34s ease both; }
+.opening .letter { animation: letter-rise .46s .49s cubic-bezier(.21,.81,.36,1) both; }
+.opening .seal { animation: seal-out .16s .26s ease both; }
+.revealed .paper { animation: paper-in .4s ease-out both; }
+.interactive .invitation { min-height: 100vh; min-height: 100svh; }
+
+@keyframes cover-out {
+  0%, 79% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes envelope-shake {
+  0%, 100% { transform: none; }
+  20%, 60% { transform: translateX(-5px) rotate(-3deg); }
+  40%, 80% { transform: translateX(5px) rotate(3deg); }
+}
+@keyframes flap-open {
+  from { transform: rotateX(0); }
+  50% { z-index: 0; }
+  to { transform: rotateX(180deg); z-index: -1; }
+}
+@keyframes letter-rise {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@keyframes seal-out { to { opacity: 0; transform: scale(1.2); } }
+@keyframes paper-in {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.calendar {
   display: inline-flex;
   align-items: center;
   gap: .8rem;
@@ -117,8 +151,6 @@ h1 em { color: var(--gold); white-space: nowrap; }
   font-weight: 600;
   transition: background .2s, color .2s;
 }
-.open-button { color: var(--gold); }
-.open-button:is(:hover, :active) { color: var(--navy); background: var(--gold); border-color: var(--gold); }
 
 .invitation { padding: clamp(1rem, 5vw, 4rem); background: #e6d8be; color: var(--navy); }
 .paper {
@@ -130,7 +162,8 @@ h1 em { color: var(--gold); white-space: nowrap; }
   box-shadow: 0 14px 40px #372a181e;
 }
 .paper-header { border-bottom: 1px solid #b6a182; padding-bottom: 1.5rem; }
-.paper-header > p:first-child, dt { color: #71512c; font-size: .77rem; letter-spacing: .1em; text-transform: uppercase; }
+.school-logo { display: block; width: min(100%, 17rem); height: auto; margin-bottom: 1.5rem; }
+.paper-header > p:first-of-type, dt { color: #71512c; font-size: .77rem; letter-spacing: .1em; text-transform: uppercase; }
 h2 { font-size: clamp(2.55rem, 7vw, 5.5rem); line-height: 1.07; margin: .5rem 0; }
 h2:focus { outline: none; }
 .graduate { font-size: clamp(1.35rem, 3vw, 2.25rem); }
@@ -150,5 +183,5 @@ dd { font-weight: 600; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
 }

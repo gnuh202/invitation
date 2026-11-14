@@ -1,28 +1,42 @@
 const cover = document.querySelector('.cover');
 const envelope = document.querySelector('.envelope');
-const openButton = document.querySelector('.open-button');
+const openButton = document.querySelector('.envelope-link');
 const invitation = document.querySelector('#thiep');
 const heading = document.querySelector('#invite-title');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const main = document.querySelector('main');
 
-invitation.hidden = location.hash !== '#thiep';
+main.classList.add('interactive');
 
-openButton.addEventListener('click', (event) => {
+function revealInvitation(moveFocus) {
+  invitation.hidden = false;
+  cover.hidden = true;
+  if (moveFocus) heading.focus({ preventScroll: true });
+}
+
+if (location.hash === '#thiep') {
+  revealInvitation(false);
+} else {
+  invitation.hidden = true;
+}
+
+openButton.addEventListener('click', async (event) => {
   event.preventDefault();
   if (cover.classList.contains('opening')) return;
 
   cover.classList.add('opening');
-  window.setTimeout(() => {
-    invitation.hidden = false;
-    cover.classList.replace('opening', 'opened');
-    if (location.hash !== '#thiep') history.replaceState(null, '', '#thiep');
-    heading.focus({ preventScroll: true });
-    invitation.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth' });
-  }, reducedMotion.matches || !invitation.hidden ? 0 : 720);
+  envelope.style.removeProperty('--tilt-x');
+  envelope.style.removeProperty('--tilt-y');
+
+  if (!reducedMotion.matches) {
+    await Promise.allSettled(cover.getAnimations({ subtree: true }).map(animation => animation.finished));
+  }
+  invitation.classList.add('revealed');
+  revealInvitation(true);
 });
 
 envelope.addEventListener('pointermove', (event) => {
-  if (event.pointerType !== 'mouse' || reducedMotion.matches) return;
+  if (event.pointerType !== 'mouse' || reducedMotion.matches || cover.classList.contains('opening')) return;
 
   const bounds = envelope.getBoundingClientRect();
   const x = (event.clientX - bounds.left) / bounds.width - 0.5;
@@ -38,7 +52,6 @@ envelope.addEventListener('pointerleave', () => {
 
 window.addEventListener('hashchange', () => {
   if (location.hash === '#thiep') {
-    invitation.hidden = false;
-    invitation.scrollIntoView();
+    revealInvitation(false);
   }
 });
