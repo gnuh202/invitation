@@ -6,6 +6,20 @@ const heading = document.querySelector('#invite-title');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const main = document.querySelector('main');
 
+const guests = new Map([
+  ['friend', 'bạn'],
+  ['younger', 'em'],
+  ['older', 'anh/chị'],
+  ['elders', 'cô dì chú bác'],
+]);
+const guestGroup = new URLSearchParams(location.search).get('guest');
+const recipient = guests.get(guestGroup) ?? guests.get('friend');
+
+heading.querySelector('.invitation-line').textContent =
+  `Thân mời ${recipient} đến chung vui trong ngày tốt nghiệp`;
+invitation.querySelector('.invitation-note').textContent =
+  `Ngày tốt nghiệp sẽ đáng nhớ hơn khi có ${recipient} ở đó!`;
+
 main.classList.add('interactive');
 
 function revealInvitation(moveFocus) {
