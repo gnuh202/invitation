@@ -28,11 +28,14 @@ if (specialName) {
   const name = document.createElement('span');
   name.className = 'guest-calligraphy';
   name.textContent = specialName;
-  heading.querySelector('.invitation-salutation').before(name);
-  if (guestGroup === 'yen') {
-    invitationLine.textContent = 'Thân mời em đến chung vui trong ngày tốt nghiệp';
-  }
-  heading.querySelector('.invitation-owner').textContent = guestGroup === 'nhi' ? 'của anh' : 'của';
+  const salutation = heading.querySelector('.invitation-salutation');
+  const greeting = document.createElement('span');
+  greeting.className = 'special-greeting';
+  greeting.textContent = 'Thân mời';
+  invitationLine.textContent = guestGroup === 'nhi'
+    ? 'đến chung vui trong ngày tốt nghiệp của anh'
+    : 'đến chung vui trong ngày tốt nghiệp của';
+  salutation.replaceChildren(greeting, name, invitationLine);
   invitation.querySelector('.signature-greeting').textContent =
     `Hẹn gặp ${recipient} ở Bách Khoa!`;
 }
