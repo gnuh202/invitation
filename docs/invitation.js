@@ -11,13 +11,31 @@ const guests = new Map([
   ['younger', 'em'],
   ['older', 'anh/chị'],
   ['elders', 'cô dì chú bác'],
+  ['yen', 'em'],
+  ['nhi', 'bé'],
 ]);
 const guestGroup = new URLSearchParams(location.search).get('guest');
 const recipient = guests.get(guestGroup) ?? guests.get('friend');
-document.title = `${recipient[0].toLocaleUpperCase('vi')}${recipient.slice(1)} có hẹn với Hùng!`;
+const specialName = new Map([['yen', 'Yến'], ['nhi', 'Nhi']]).get(guestGroup);
+document.title = guestGroup === 'nhi'
+  ? 'Em yêu có hẹn với anh!'
+  : `${specialName ?? recipient[0].toLocaleUpperCase('vi') + recipient.slice(1)} có hẹn với Hùng!`;
 
-heading.querySelector('.invitation-line').textContent =
+const invitationLine = heading.querySelector('.invitation-line');
+invitationLine.textContent =
   `Thân mời ${recipient} đến chung vui trong ngày tốt nghiệp`;
+if (specialName) {
+  const name = document.createElement('span');
+  name.className = 'guest-calligraphy';
+  name.textContent = specialName;
+  heading.querySelector('.invitation-salutation').before(name);
+  if (guestGroup === 'yen') {
+    invitationLine.textContent = 'Thân mời em đến chung vui trong ngày tốt nghiệp';
+  }
+  heading.querySelector('.invitation-owner').textContent = guestGroup === 'nhi' ? 'của anh' : 'của';
+  invitation.querySelector('.signature-greeting').textContent =
+    `Hẹn gặp ${recipient} ở Bách Khoa!`;
+}
 invitation.querySelector('.invitation-note').textContent =
   `Ngày tốt nghiệp sẽ đáng nhớ hơn khi có ${recipient} ở đó!`;
 
@@ -80,6 +98,7 @@ const rsvpDodge = rsvp.querySelector('.rsvp-dodge');
 const rsvpDialog = rsvp.querySelector('dialog');
 const rsvpForm = rsvp.querySelector('form');
 const rsvpName = rsvpForm.elements.name;
+if (specialName) rsvpName.value = specialName;
 const rsvpSubmit = rsvpForm.querySelector('button');
 const rsvpStatus = rsvpDialog.querySelector('.rsvp-dialog-status');
 const rsvpTitle = rsvpDialog.querySelector('#rsvp-title');
@@ -168,7 +187,9 @@ rsvpForm.addEventListener('submit', async (event) => {
     rsvpForm.hidden = true;
     rsvpDodge.hidden = true;
     rsvpStatus.textContent = '';
-    rsvpTitle.textContent = `Cảm ơn ${name} vì đã đồng ý tham gia ❤️`;
+    rsvpTitle.textContent = specialName
+      ? 'Cảm ơn em vì đã đồng ý tham gia cùng anh ❤️'
+      : `Cảm ơn ${name} vì đã đồng ý tham gia ❤️`;
     rsvpDialog.classList.add('is-confirmed');
     rsvpClose.hidden = true;
     rsvpOk.hidden = false;

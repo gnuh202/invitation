@@ -265,6 +265,12 @@ h1 { text-align: center; font-size: clamp(2.65rem, 7vw, 6rem); line-height: 1.05
   white-space: nowrap;
 }
 #invite-title:focus { outline: none; }
+.guest-calligraphy {
+  display: block;
+  margin: 0 auto calc(14 * var(--paper-unit));
+  color: #694828;
+  font: 400 calc(66 * var(--paper-unit))/1.4 "Charm", "Segoe Script", cursive;
+}
 .invitation-salutation {
   display: block;
   margin: 0 auto calc(10.4 * var(--paper-unit));
